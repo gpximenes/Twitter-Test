@@ -1,7 +1,6 @@
-
-from lib2to3.pgen2 import driver
-from telnetlib import EC
+from random import choice
 import time
+from turtle import title
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -36,7 +35,7 @@ class Connection:
             driver = webdriver.Chrome("C:\Códigos\ChromeDriver\chromedriver.exe")
         else:
             driver = webdriver.Chrome("C:\Códigos\ChromeDriver\chromedriver.exe", options=chrome_options)
-        driver.set_window_size(550,700)       
+        driver.set_window_size(600,600)       
         return driver
 
     def open_login_page(self,url):
@@ -59,14 +58,15 @@ class Connection:
     def input_username(self):
         xpath_login_field_small = "/html/body/div/div/div/div/main/div/div/div/div[2]/div[2]/div[1]/div/div/div[5]/label/div/div[2]/div/input"
         xpath_login_field_big   = '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[5]/label/div/div[2]/div/input'
+        xpath_login_field = xpath_login_field_small
         while True:
-            try:
-                if self.driver.find_element_by_xpath(xpath_login_field_big).is_displayed:
-                        xpath_login_field = xpath_login_field_big
-                if self.driver.find_element_by_xpath(xpath_login_field_small).is_displayed:
-                        xpath_login_field = xpath_login_field_small
-            except:
-                xpath_login_field = xpath_login_field_small
+            # try:
+            #     if self.driver.find_element_by_xpath(xpath_login_field_big).is_displayed:
+            #             xpath_login_field = xpath_login_field_big
+            #     if self.driver.find_element_by_xpath(xpath_login_field_small).is_displayed:
+            #             xpath_login_field = xpath_login_field_small
+            # except:
+            #     xpath_login_field = xpath_login_field_small
             try: 
                 login_field = self.driver.find_element_by_xpath(xpath_login_field)
                 login_field.send_keys(self.username)
@@ -101,6 +101,7 @@ class Connection:
         self.click_log_in()
         self.input_username()
         self.input_password()
+        self.driver.set_window_size(800,800)  
     
 
     def twettar(self,tweet):
@@ -113,10 +114,44 @@ class Connection:
         tweet_button = self.driver.find_element_by_xpath(xpath_tweet_button)
         tweet_button.click()
 
+    def create_pool(self):
+        #xpath_pool_button = '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div[3]/div/div/div[1]/div[3]/div/svg'
+        xpath_pool_button = '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div[3]/div/div/div[1]/div[3]/div/svg/g/path'
+        selector_pool_button = '#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div > div > div > div.css-1dbjc4n.r-14lw9ot.r-184en5c > div > div.css-1dbjc4n.r-14lw9ot.r-oyd9sg > div:nth-child(1) > div > div > div > div.css-1dbjc4n.r-1iusvr4.r-16y2uox.r-1777fci.r-1h8ys4a.r-1bylmt5.r-13tjlyg.r-7qyjyx.r-1ftll1t > div:nth-child(3) > div > div > div:nth-child(1) > div:nth-child(4) > div > svg'
+        # WebDriverWait(self.driver,20).until(EC.presence_of_element_located((By.XPATH,xpath_pool_button)))
+        #pool_button = self.driver.find_element_by_xpath(xpath_pool_button)
+        pool_button = self.driver.find_element_by_css_selector(selector_pool_button)
 
+        pool_button.click()
+
+        time.sleep(3)
+        xpath_choice1 = '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div/div/div[1]/div[1]/div[1]/div/label/div/div[2]/div/input'
+        choice1 = 'feijao'
+
+        choice1_field = self.driver.find_element_by_xpath(xpath_choice1)
+        choice1_field.send_keys(choice1)
+
+        xpath_choice2 = '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div/div/div[1]/div[1]/div[2]/div/label/div/div[2]/div/input'        
+        choice2 = 'arroz'
+        choice2_field = self.driver.find_element_by_xpath(xpath_choice2)
+        choice2_field.send_keys(choice2)
+
+
+        xpath_title = '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/label/div[1]/div/div/div/div/div/div/div/div/div'
+        title_field = self.driver.find_element_by_xpath(xpath_title)
+        tile_text = 'Enquete'
+        title_field.send_keys(tile_text)
+
+        
+        xpath_tweet_button = '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div[3]/div/div/div[2]/div[3]/div/span/span'
+        tweet_button = self.driver.find_element_by_xpath(xpath_tweet_button)
+        tweet_button.click()
 
 controller = Connection()
 
-controller.twettar("oi")
+
+time.sleep(15)
+controller.create_pool()
+
 
 time.sleep(600)
