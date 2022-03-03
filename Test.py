@@ -10,6 +10,9 @@ class Connection:
     consumer_secret = 'i6FSeyTj0hhrA3d78z1s19yIuIcCPaNMkPBWPqNaopbLui1TpV'
     callback_uri = 'oob'
 
+    slowmode = True
+
+
     username = "WeekProgressBar"
     password = "Twitterbot34"
 

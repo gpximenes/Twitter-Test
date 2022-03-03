@@ -95,6 +95,37 @@ class Connection:
         confirm_id_next = self.driver.find_element_by_xpath(xpath_confirm_id_next)
         confirm_id_next.click()
 
+    def input_email_invalid(self,email):
+        xpath_login_field_small = "/html/body/div/div/div/div/main/div/div/div/div[2]/div[2]/div[1]/div/div/div[5]/label/div/div[2]/div/input"
+        while True:
+            try: 
+                login_field = self.driver.find_element_by_xpath(xpath_login_field_small)
+                login_field.send_keys(email)
+                button_next = self.driver.find_element_by_xpath("/html/body/div/div/div/div/main/div/div/div/div[2]/div[2]/div[1]/div/div/div[6]/div/span/span")
+                button_next.click()
+                break
+            except:
+                time.sleep(3)
+        time.sleep(3)
+        xpath_confirm_id = '//*[@id="react-root"]/div/div/div/main/div/div/div/div[2]/div[2]/div[1]/div/div/div[2]/label/div/div[2]/div/input'
+        selector_confirm_id = '#react-root > div > div > div > main > div > div > div > div.css-1dbjc4n.r-6koalj.r-16y2uox > div.css-1dbjc4n.r-16y2uox.r-1jgb5lz.r-13qz1uu > div.css-1dbjc4n.r-8w3o46.r-16y2uox.r-1wbh5a2.r-1dqxon3 > div > div > div.css-1dbjc4n.r-mk0yit.r-1f1sjgu > label > div > div.css-1dbjc4n.r-18u37iz.r-16y2uox.r-1wbh5a2.r-1wzrnnt.r-1udh08x.r-xd6kpl.r-1pn2ns4.r-ttdzmv > div > input'
+        try:
+            confirm_id_button = self.driver.find_element_by_xpath(xpath_confirm_id)
+        except:
+            confirm_id_button = self.driver.find_element_by_css_selector(selector_confirm_id)
+        confirm_id_button.send_keys(self.username)
+
+
+        xpath_error = '//*[@id="react-root"]/div/div/div'
+        error = self.driver.find_element_by_xpath(xpath_error)
+        if  error.is_displayed and error.is_enabled:
+            print("Erro: Conta não localizada")
+            return
+
+        xpath_confirm_id_next = '//*[@id="react-root"]/div/div/div/main/div/div/div/div[2]/div[2]/div[2]/div/div/div'
+        confirm_id_next = self.driver.find_element_by_xpath(xpath_confirm_id_next)
+        confirm_id_next.click()
+
     def input_login_admin(self):
         xpath_login_field_small = "/html/body/div/div/div/div/main/div/div/div/div[2]/div[2]/div[1]/div/div/div[5]/label/div/div[2]/div/input"
         while True:
@@ -108,13 +139,29 @@ class Connection:
                 time.sleep(3)
         time.sleep(3)
 
+        while True:
+            time.sleep(3)
+            xpath_password_field = '/html/body/div/div/div/div/main/div/div/div/div[2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input'
+            password_field = self.driver.find_element_by_xpath(xpath_password_field)
+
+            password_field.send_keys("admin")
+
+            xpath_auth_button = '//*[@id="react-root"]/div/div/div/main/div/div/div/div[2]/div[2]/div[2]/div/div/div[1]/div/span/span'
+            auth_button = self.driver.find_element_by_xpath(xpath_auth_button)
+            auth_button.click()    
+            break   
+
+
+
+
+
         xpath_confirm_id = '//*[@id="react-root"]/div/div/div/main/div/div/div/div[2]/div[2]/div[1]/div/div/div[2]/label/div/div[2]/div/input'
         selector_confirm_id = '#react-root > div > div > div > main > div > div > div > div.css-1dbjc4n.r-6koalj.r-16y2uox > div.css-1dbjc4n.r-16y2uox.r-1jgb5lz.r-13qz1uu > div.css-1dbjc4n.r-8w3o46.r-16y2uox.r-1wbh5a2.r-1dqxon3 > div > div > div.css-1dbjc4n.r-mk0yit.r-1f1sjgu > label > div > div.css-1dbjc4n.r-18u37iz.r-16y2uox.r-1wbh5a2.r-1wzrnnt.r-1udh08x.r-xd6kpl.r-1pn2ns4.r-ttdzmv > div > input'
         try:
             confirm_id_button = self.driver.find_element_by_xpath(xpath_confirm_id)
         except:
             confirm_id_button = self.driver.find_element_by_css_selector(selector_confirm_id)
-        confirm_id_button.send_keys("admin")
+        confirm_id_button.click()
 
         xpath_confirm_id_next = '//*[@id="react-root"]/div/div/div/main/div/div/div/div[2]/div[2]/div[2]/div/div/div'
         confirm_id_next = self.driver.find_element_by_xpath(xpath_confirm_id_next)
@@ -145,11 +192,9 @@ class Connection:
             print("Erro: Conta não localizada")
 
 
-
-
     def input_password(self):
         try:
-            if self.driver.find_element_by_xpath('//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[5]/label/div/div[2]/div/input').is_displayed:
+            if self.driver.find_element_by_xpath('//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[5]/label/div/div[2]/div/input').is_displayed and self.driver.find_element_by_xpath('//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div/div[5]/label/div/div[2]/div/input').is_enabled:
                 self.input_username()
         except:
             pass
@@ -170,9 +215,10 @@ class Connection:
     def log_in(self):
         
         self.click_log_in()
-        self.input_username()
+        #self.input_username()
         #self.input_email()
-        #self.input_phone()   # COM ERRO DO TWITTER
+        #self.input_email_invalid("eu@eu.com")
+        self.input_phone()   # COM ERRO DO TWITTER
         #self.input_login_admin()
         self.input_password()
         self.driver.set_window_size(800,800)  
@@ -198,13 +244,13 @@ class Connection:
 
         time.sleep(3)
         xpath_choice1 = '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div/div/div[1]/div[1]/div[1]/div/label/div/div[2]/div/input'
-        choice1 = 'feijao'
+        choice1 = 'bunda'
 
         choice1_field = self.driver.find_element_by_xpath(xpath_choice1)
         choice1_field.send_keys(choice1)
 
         xpath_choice2 = '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div/div/div[1]/div[1]/div[2]/div/label/div/div[2]/div/input'        
-        choice2 = 'arroz'
+        choice2 = 'peito'
         choice2_field = self.driver.find_element_by_xpath(xpath_choice2)
         choice2_field.send_keys(choice2)
 
@@ -236,7 +282,7 @@ controller = Connection()
 
 
 time.sleep(5)
-
+controller.search()
 
 
 time.sleep(600)
