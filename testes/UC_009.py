@@ -8,10 +8,10 @@ driver = webdriver.Firefox()
 
 def logar():
     driver.get("https://twitter.com/i/flow/login")
-    usuario = "@danyvazquez69"#input("Digite seu usuario: ")
+    usuario = input("Digite seu usuario: ")
     global senha
-    senha = "mamaco007"#input("Digite sua senha: ")
-    email = "danyv7818@gmail.com"#input("Digite seu email: ")
+    senha = input("Digite sua senha: ")
+    email = input("Digite seu email: ")
     sleep(2)
     driver.implicitly_wait(10)
     input_email = driver.find_element(By.NAME, "text")
@@ -29,7 +29,7 @@ def logar():
 def mudar_usuario_():
     driver.implicitly_wait(10)
     global novo_usuario
-    novo_usuario = "mamaco0007"#input("Qual o novo nome de usuario desejado: ")
+    novo_usuario = input("Qual o novo nome de usuario desejado: ")
     sleep(2)
     driver.implicitly_wait(10)
     botao_mais = driver.find_element(By.XPATH,'/html/body/div[1]/div/div/div[2]/header/div/div/div/div[1]/div[2]/nav/div').click()
